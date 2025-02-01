@@ -1,66 +1,14 @@
-## Foundry
+## SMART CONTRACT RAFFLE
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+**THIS CONTRACT IS CREATES A PROVABLY FAIR RAFFLE. THIS CONTRACT IMPLEMENTS CHAINLINK VRFv2.5 TO ENSURE THAT THE WINNER IS RANDOMLY AWARDED AND CHAINLINK AUTOMATIONv2.1 TO ENSURE THE RAFFLE IS CONTINUALLY RUNNING AND AUTOMATICALLY EXECUTED. THIS CONTRACT WAS WRITTEN IN SOLIDITY AND DEVELOPED IN FOUNDRY**
 
-Foundry consists of:
-
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
+## Foundry Documentation
 
 https://book.getfoundry.sh/
 
-## Usage
-
-### Build
-
-```shell
-$ forge build
-```
-
-### Test
-
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+## Getting Started
+To install & use this Repository
+~~~
+git clone https://github.com/yourusername/smart-contract-lottery-f24
+~~~
+Every other command is found in the Makefile.
