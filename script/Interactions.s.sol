@@ -3,8 +3,7 @@ pragma solidity 0.8.19;
 
 import {Script, console} from "forge-std/Script.sol";
 import {HelperConfig} from "./HelperConfig.s.sol";
-import {VRFCoordinatorV2_5Mock} from
-    "chainlink-brownie-contracts/contracts/src/v0.8/vrf/mocks/VRFCoordinatorV2_5Mock.sol";
+import {VRFCoordinatorV2_5Mock} from "chainlink-brownie-contracts/contracts/src/v0.8/vrf/mocks/VRFCoordinatorV2_5Mock.sol";
 import {CodeConstants} from "./HelperConfig.s.sol";
 import {LinkToken} from "../test/Mocks/LinkToken.sol";
 import {DevOpsTools} from "lib/foundry-devops/src/DevOpsTools.sol";
@@ -14,14 +13,18 @@ contract CreateSubscription is Script {
         HelperConfig helperConfig = new HelperConfig();
         address vrfCoordinator = helperConfig.getConfig().vrfCoordinator;
         address account = helperConfig.getConfig().account;
-        (uint256 subId,) = createSubscription(vrfCoordinator, account);
+        (uint256 subId, ) = createSubscription(vrfCoordinator, account);
         return (subId, vrfCoordinator);
     }
 
-    function createSubscription(address vrfCoordinator, address account) public returns (uint256, address) {
+    function createSubscription(
+        address vrfCoordinator,
+        address account
+    ) public returns (uint256, address) {
         console.log("Creating Subscription on Chain Id", block.chainid);
         vm.startBroadcast(account);
-        uint256 subId = VRFCoordinatorV2_5Mock(vrfCoordinator).createSubscription();
+        uint256 subId = VRFCoordinatorV2_5Mock(vrfCoordinator)
+            .createSubscription();
         vm.stopBroadcast();
 
         console.log("Your Subscription ID is", subId);
@@ -47,20 +50,30 @@ contract FundSubscription is Script, CodeConstants {
         fundSubscription(vrfCoordinator, subscriptionId, linkToken, account);
     }
 
-    function fundSubscription(address vrfCoordinator, uint256 subscriptionId, address linkToken, address account)
-        public
-    {
+    function fundSubscription(
+        address vrfCoordinator,
+        uint256 subscriptionId,
+        address linkToken,
+        address account
+    ) public {
         console.log("funding subscription", subscriptionId);
         console.log("using vrfCoordinator", vrfCoordinator);
         console.log("on ChainId", block.chainid);
 
         if (block.chainid == LOCAL_CHAIN_ID) {
             vm.startBroadcast();
-            VRFCoordinatorV2_5Mock(vrfCoordinator).fundSubscription(subscriptionId, FUND_AMOUNT * 10);
+            VRFCoordinatorV2_5Mock(vrfCoordinator).fundSubscription(
+                subscriptionId,
+                FUND_AMOUNT * 100
+            );
             vm.stopBroadcast();
         } else {
             vm.startBroadcast(account);
-            LinkToken(linkToken).transferAndCall(vrfCoordinator, FUND_AMOUNT, abi.encode(subscriptionId));
+            LinkToken(linkToken).transferAndCall(
+                vrfCoordinator,
+                FUND_AMOUNT,
+                abi.encode(subscriptionId)
+            );
             vm.stopBroadcast();
         }
     }
@@ -79,17 +92,28 @@ contract AddConsumer is Script {
         addConsumer(mostRecentlyDeployed, vrfCoordinator, subId, account);
     }
 
-    function addConsumer(address contractToAddTovrf, address vrfCoordinator, uint256 subId, address account) public {
+    function addConsumer(
+        address contractToAddTovrf,
+        address vrfCoordinator,
+        uint256 subId,
+        address account
+    ) public {
         console.log("Adding consumer contract", contractToAddTovrf);
         console.log("To vrfCoordinator", vrfCoordinator);
         console.log("on chainId", block.chainid);
         vm.startBroadcast(account);
-        VRFCoordinatorV2_5Mock(vrfCoordinator).addConsumer(subId, contractToAddTovrf);
+        VRFCoordinatorV2_5Mock(vrfCoordinator).addConsumer(
+            subId,
+            contractToAddTovrf
+        );
         vm.stopBroadcast();
     }
 
     function run() public {
-        address mostRecentlyDeployed = DevOpsTools.get_most_recent_deployment("Raffle", block.chainid);
+        address mostRecentlyDeployed = DevOpsTools.get_most_recent_deployment(
+            "Raffle",
+            block.chainid
+        );
         addConsumerUsingConfig(mostRecentlyDeployed);
     }
 }
