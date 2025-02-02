@@ -9,6 +9,6 @@ https://book.getfoundry.sh/
 ## Getting Started
 To install & use this Repository
 ~~~
-git clone https://github.com/yourusername/smart-contract-lottery-f24
+git clone https://github.com/yourusername/smart-contract-lottery
 ~~~
 Every other command is found in the Makefile.
