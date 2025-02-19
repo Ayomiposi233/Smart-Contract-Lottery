@@ -64,7 +64,7 @@ contract InteractionsTest is Test {
         if (addedConsumer[consumerIndex] == address(raffle)) {
             isConsumer = true;
         }
-        // Verify the added consumer by asserting that it indeed a consumer contract
+        // Verify the added consumer by asserting that it is indeed a consumer contract
         assertTrue(isConsumer, "raffle is not an added consumer");
     }
 }
